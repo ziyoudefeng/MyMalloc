@@ -1,0 +1,23 @@
+#ifndef _FIRST_FIT_MALLOC
+#define _FIRST_FIT_MALLOC
+
+union header {
+	struct {
+		union header *link;
+		unsigned size;
+	} s;
+	union align {
+		double d;
+		unsigned u;
+		void (*f)(void);
+	} x;
+} freelist = {{ &freelist, 0}}, *freep = &freelist;
+
+void *first_malloc(unsigned int nbytes);
+void first_free(void *ptr);
+
+#ifndef BLOCK
+#define BLOCK 1024
+#endif
+
+#endif
